@@ -1,0 +1,166 @@
+.portada{
+	width: 100%;
+	height: 90vh;
+	overflow: hidden;
+	background: linear-gradient(
+		$azure,
+		$pink
+	);
+
+	@media (min-width: 380px) and (min-height: 810px) {
+		height: 60vh;
+	} 
+
+	@media (min-width: 1199px){
+		height: 70vh;
+	} 
+
+
+	.titulo{
+
+		@media (min-width: 200px){
+			top: 11%;
+			text-align: -webkit-center;
+		}
+
+		@media (min-width: 800px){
+			top: 17%;
+			text-align: -webkit-center;
+		}
+
+		@media (min-width: 900px){
+			top: 27%;
+			text-align: -webkit-center;
+		}
+
+		@media (min-width: 1200px){
+			width: 60%;
+			top: 16%;
+			text-align: left;
+		} 
+
+		@media (min-width: 1300px){
+			width: 60%;
+			top: 30%;
+			text-align: left;
+		} 
+	
+		@media (max-width: 576px) {
+
+			.superior{
+				font-size: 40px;
+				line-height: 49px;
+			}
+
+			.inferior{
+				font-size: 40px;
+				line-height: 49px;
+			}
+
+		}      
+		 
+	}
+
+	.animacionPortada{
+		width: 270px;
+		height: 270px;
+		position: absolute;
+		top: 90%;
+		left: 50%;
+		transform: translate(-50%,-100%);
+
+		@media (min-width: 200px) and (min-height: 810px) {
+			top: 95%;
+			width: 350px;
+			height: 350px;
+			left: 50%;
+			transform: translate(-50%,-95%);
+		} 
+
+		@media (min-width: 750px) and (min-height: 1000px) {
+			top: 72%;
+			width: 450px;
+			height: 450px;
+			left: 50%;
+			transform: translate(-50%,-65%);
+		} 
+
+		@media (min-width: 1199px){
+			top: 50%;
+			width: 400px;
+			height: 400px;
+			left: 100%;
+			transform: translate(-100%,-50%);
+		} 
+
+		@media (min-width: 1899px){
+			width: 500px;
+			height: 500px;
+		} 
+
+
+		.carita{
+			width: 50%;
+			height: 50%;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			opacity: 1;
+
+			.ojo{
+				width: 25%;
+				height: 25%;
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				background-color: $white;
+			}
+
+			.ojoDos{
+				width: 25%;
+				height: 25%;
+				position: absolute;
+				top: 0%;
+				right: 0%;
+				background-color: $white;
+			}
+
+			.boca{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				border: 30px solid $white;
+				border-top: 30px solid transparent;
+				border-left: 30px solid transparent;
+				border-radius: 100%;
+				transform: translate(-50%, -65%) rotate(45deg);
+				top: 66%;
+				left: 50%;
+
+				@media (min-width: 750px) and (min-height: 1000px) {
+					border: 55px solid $white;
+					border-top: 55px solid transparent;
+					border-left: 55px solid transparent;
+				} 
+
+				@media (min-width: 1199px){
+					border: 50px solid $white;
+					border-top: 50px solid transparent;
+					border-left: 50px solid transparent;
+				} 
+
+				@media (min-width: 1899px){
+					border: 60px solid $white;
+					border-top: 60px solid transparent;
+					border-left: 60px solid transparent;
+				} 
+
+			}
+
+		}
+
+
+	}
+
+}

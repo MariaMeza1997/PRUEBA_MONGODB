@@ -1,0 +1,46 @@
+.prueba_title{
+    width: 100%;
+	padding-top: 50px;
+
+	@media(min-width: 1200px){
+		width: 50%;
+		position: absolute;
+		padding-top: 0;
+		top: 25%;
+	}
+
+	&__title{
+		color: $black;
+        font-size: 48px;
+		line-height: 58px;
+        width: 100%;
+
+		@media(min-width: 576px){
+			font-size: 65px;
+			line-height: 75px;
+		}
+
+	}
+
+	&__subtitle{
+		font-size: 40px;
+		line-height: 40px;
+        -webkit-text-stroke-color: $black;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke: 1px $black;
+        -webkit-text-fill-color: transparent;
+
+		@media(min-width: 576px){
+			font-size: 60px;
+			line-height: 65px;
+		}
+
+	}
+
+    &__text{
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+}
