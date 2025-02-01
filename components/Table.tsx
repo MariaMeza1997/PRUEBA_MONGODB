@@ -4,6 +4,8 @@ import type { NextPage } from 'next'
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import { useEffect, useState } from 'react';
 import  axios  from 'axios'
+import { request } from 'http';
+import { set } from 'mongoose';
 
 /**
  * @author Maria Meza
@@ -11,16 +13,60 @@ import  axios  from 'axios'
  * @description Table
  */
 
-const TableAll: NextPage = () => {
+interface AllTaks {
+    AllTaks :{
+        responsable:String,
+        status:String,
+        fechaEntrega:Date, 
+        actividad: String
+    }, 
+    id:string
+}
+
+const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
     const [responsable , setResponsable] = useState('');
     const [status, setStatus]= useState('');
+    const [fechaEntrega , setFechaEntrega] = useState('');
+    const [actividad , setActividad] = useState('');
+    const [id , setId] = useState('');
 
-    
+    const data = Array.from(AllTaks);
 
-    const handelSumbit = async  (e) =>{
-        e.preventDefault()
+    const DeleteTaks = async (idDoc: string) => {
+
         try{
-            const response = await axios.post("/api/taks",{ responsable, status })
+            const response = await axios.delete("/api/taks/deleteOne",{ idDoc } )
+            console.log(response)
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const DeleteAllTaks = async () => {
+
+        try{
+            const response = await axios.delete("/api/taks")
+            console.log(response)
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const handelSumbit = async  (e : any) =>{
+        e.preventDefault()
+        const responseCreate ={
+            responsable: responsable,
+            status:status,
+            fechaEntrega:fechaEntrega, 
+            actividad: actividad
+        }
+
+        const JsonResponseCreate = JSON.stringify(responseCreate)
+          
+        try{
+            const response = await axios.post("/api/taks",{ JsonResponseCreate })
             console.log(response)
 
         }catch(err){
@@ -45,7 +91,7 @@ const TableAll: NextPage = () => {
                                 </div>
                                 <div className="col-sm-6 table-row-btn ">
                                     <a href="#addEmployeeModal" className="btn btn-success " data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>Agregar Actividad</span></a>
-                                    <a href="#deleteEmployeeModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons">&#xE15C;</i> <span>Eliminar actividad</span></a>						
+                                    <a href="#deleteEmployeeModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons" >&#xE15C;</i> <span>Eliminar todas las Actividades</span></a>						
                                 </div>
                             </div>
                         </div>
@@ -68,42 +114,31 @@ const TableAll: NextPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <span className="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1" />
-                                        <label htmlFor="checkbox1"></label>
-                                        </span>
-                                    </td>
-                                    <td>1</td>
-                                    <td>Revisar look and feel </td>
-                                    <td>Maria Meza</td>
-                                    <td>12/02/2024</td>
-                                    <td>Pendiente</td>
-                                    <td>
-                                        <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
+                                {
+                                    data.map((items, index )=>(
 
-                                <tr>
-                                    <td>
-                                        <span className="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1" />
-                                        <label htmlFor="checkbox1"></label>
-                                        </span>
-                                    </td>
-                                    <td>2</td>
-                                    <td>Revisar look and feel </td>
-                                    <td>Maria Meza</td>
-                                    <td>12/02/2024</td>
-                                    <td>Pendiente</td>
-                                  
-                                    <td>
-                                        <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
+                                        <tr  key={index}>
+                                        <td>
+                                            <span className="custom-checkbox">
+                                            <input type="checkbox" id="checkbox1" name="options[]" value="1" />
+                                            <label htmlFor="checkbox1"></label>
+                                            </span>
+                                        </td>
+                                        <td>{items._id}</td>
+                                        <td>{items.actividad}</td>
+                                        <td>{items.responsable}</td>
+                                        <td>{items.fechaEntrega}</td>
+                                        <td>{items.status}</td>
+                                        <td>
+                                            <a href="#editEmployeeModal"   className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="#deleteEmployeeModalIndividual" onClick={(e) => setId(items._id)}className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                    
+                                    ))
+                                        
+                                }
+                            
                                
                             </tbody>
                         </table>
@@ -125,7 +160,7 @@ const TableAll: NextPage = () => {
                             <div className="modal-body">					
                                 <div className="form-group">
                                     <label>Actividad</label>
-                                    <input type="text" className="form-control" required />
+                                    <input type="text" className="form-control" onChange={(e) => setActividad(e.target.value)} required />
                                 </div>
                                 <div className="form-group">
                                     <label>Responsable</label>
@@ -133,7 +168,7 @@ const TableAll: NextPage = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>Fecha de Entrega</label>
-                                    <input type="date" className="form-control" required />
+                                    <input type="date" className="form-control" onChange={(e)=> setFechaEntrega(e.target.value)} required />
                                 </div>
 
                                 <div className="form-group">
@@ -189,7 +224,28 @@ const TableAll: NextPage = () => {
             </div>
             {/* Eliminar modal */}
 
-            <div id="deleteEmployeeModal" className="modal fade">
+            <div id="deleteEmployeeModal" onSubmit={DeleteAllTaks} className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <form>
+                            <div className="modal-header">						
+                                <h4 className="modal-title">Eliminar actividad</h4>
+                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div className="modal-body">					
+                                <p>¿Esta seguro de querer eliminar?</p>
+                                <p className="text-warning"><small>Esta accion no tiene retorno.</small></p>
+                            </div>
+                            <div className="modal-footer">
+                                <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel" />
+                                <input type="submit" className="btn btn-danger" value="Delete" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {/* Eliminar modal individual */}
+            <div id="deleteEmployeeModalIndividual" onSubmit={DeleteTaks} className="modal fade">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <form>
