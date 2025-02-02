@@ -30,6 +30,6 @@ export  async function POST(request){
     const data = await request.json()
 
     const taksAll = await Taks.create(data)
-    return NextResponse.json(taksAll)
+    return NextResponse.json(data)
 
 }

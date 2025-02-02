@@ -20,7 +20,7 @@ interface AllTaks {
         fechaEntrega:Date, 
         actividad: String
     }, 
-    id:string
+    idDoc:string
 }
 
 const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
@@ -28,14 +28,14 @@ const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
     const [status, setStatus]= useState('');
     const [fechaEntrega , setFechaEntrega] = useState('');
     const [actividad , setActividad] = useState('');
-    const [id , setId] = useState('');
+    const [idUse , setIdUse] = useState('');
 
     const data = Array.from(AllTaks);
 
-    const DeleteTaks = async (idDoc: string) => {
-
+    const DeleteTaks = async ( ) => {
+      
         try{
-            const response = await axios.delete("/api/taks/deleteOne",{ idDoc } )
+            const response = await axios.delete("/api/taks/deleteOne",  { id : idUse } )
             console.log(response)
 
         }catch(err){
@@ -54,19 +54,15 @@ const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
         }
     }
 
-    const handelSumbit = async  (e : any) =>{
-        e.preventDefault()
-        const responseCreate ={
-            responsable: responsable,
-            status:status,
-            fechaEntrega:fechaEntrega, 
-            actividad: actividad
-        }
+    const handelSumbit = async  () =>{
 
-        const JsonResponseCreate = JSON.stringify(responseCreate)
-          
         try{
-            const response = await axios.post("/api/taks",{ JsonResponseCreate })
+            const response = await axios.post("/api/taks",{ 
+                responsable: responsable,
+                status:status,
+                fechaEntrega:fechaEntrega, 
+                actividad: actividad
+            })
             console.log(response)
 
         }catch(err){
@@ -131,7 +127,7 @@ const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
                                         <td>{items.status}</td>
                                         <td>
                                             <a href="#editEmployeeModal"   className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="#deleteEmployeeModalIndividual" onClick={(e) => setId(items._id)}className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="#deleteEmployeeModalIndividual" onClick={(e) => setIdUse(items._id)}className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                     
