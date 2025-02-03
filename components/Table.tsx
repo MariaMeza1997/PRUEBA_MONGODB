@@ -32,11 +32,15 @@ const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
 
     const data = Array.from(AllTaks);
 
-    const DeleteTaks = async ( ) => {
+    const DeleteTaks = async ( e) => {
       
+        e.preventDefault()
+
         try{
-            const response = await axios.delete("/api/taks/deleteOne",  { id : idUse } )
+            const response = await axios.delete("/api/taks/deleteOne", {id : idUse}  )
             console.log(response)
+
+            console.log({ idUse })
 
         }catch(err){
             console.log(err)
@@ -44,7 +48,7 @@ const TableAll: NextPage<AllTaks> = ({ AllTaks }) => {
     }
 
     const DeleteAllTaks = async () => {
-
+     
         try{
             const response = await axios.delete("/api/taks")
             console.log(response)
